@@ -1,0 +1,18 @@
+Source: thread-apt-server
+Section: net
+Priority: optional
+Maintainer: Thread, Inc. <tech@thread.com>
+Build-Depends: debhelper (>= 7.0.50~), python
+Standards-Version: 3.9.4
+
+Package: thread-apt-server
+Architecture: all
+X-Python-Version: >= 2.6
+Depends:
+  ${misc:Depends},
+  ${python:Depends},
+  gnupg,
+  dpkg-dev,
+  python-daemon,
+  python-eventlet,
+Description: Thread APT server

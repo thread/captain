@@ -1,0 +1,11 @@
+#!/bin/sh
+
+#DEBHELPER#
+
+set -e
+
+if [ "$1" = "purge" ]
+then
+	rm -rf /var/run/thread-apt-server
+	rm -rf /var/log/thread-apt-server
+fi
