@@ -20,7 +20,7 @@ LOGFILE=/var/log/${NAME}/${NAME}.log
 
 BASE_DIR=/srv/apt.srv.thread.com
 GPG_HOME=/srv/apt.srv.thread.com/gpg
-GPG_DEFAULT_KEY=jjjjjjjjjjjjjjjjjjjjj
+GPG_DEFAULT_KEY=5F3700E8
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
