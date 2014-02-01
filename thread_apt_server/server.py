@@ -58,9 +58,6 @@ class Server(object):
         except HttpException, exc:
             start_response(exc.message, [])
             return [exc.message]
-        except Exception, exc:
-            start_response("500 Internal Server Error", [])
-            return ["500 Internal Server Error"]
 
     def fullpath_from_uri(self, uri):
         result = os.path.abspath(
