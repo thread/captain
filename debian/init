@@ -42,6 +42,7 @@ case "${1:-}" in
                     --pidfile ${PIDFILE} \
 		    --chdir / \
                     --exec ${DAEMON} -- \
+                    --pidfile ${PIDFILE} \
 		    --verbosity=1 \
 		    --base-dir ${BASE_DIR} \
 		    --gpg-home ${GPG_HOME} \
