@@ -75,18 +75,8 @@ class Server(object):
         if env['PATH_INFO'] == '/':
             start_response('200 OK', [])
 
-            p = subprocess.Popen((
-                'gpg',
-                '--homedir', self.options.gpg_home,
-                '--no-permission-warning',
-                '--export',
-                self.options.gpg_default_key,
-            ), stdout=subprocess.PIPE)
-
-            result = p.communicate()[0]
-            assert p.returncode == 0
-
-            return [result]
+            with open(os.path.join(self.options.gpg_home, 'pubring.gpg')) as f:
+                return [f.read()]
 
         if env['PATH_INFO'] == '/_stats':
             self.stats.update({
@@ -252,7 +242,6 @@ class Server(object):
             'gpg',
             '--homedir', self.options.gpg_home,
             '--no-permission-warning',
-            '--default-key', self.options.gpg_default_key,
             '--sign',
             '--detach-sign',
             '--armor',

@@ -20,7 +20,6 @@ LOGFILE=/var/log/${NAME}/${NAME}.log
 
 BASE_DIR=/srv/apt.srv.thread.com
 GPG_HOME=/srv/apt.srv.thread.com/gpg
-GPG_DEFAULT_KEY=5F3700E8
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
@@ -46,7 +45,6 @@ case "${1:-}" in
 		    --verbosity=1 \
 		    --base-dir ${BASE_DIR} \
 		    --gpg-home ${GPG_HOME} \
-		    --gpg-default-key ${GPG_DEFAULT_KEY} \
 		    --logfile ${LOGFILE}
 
 		log_end_msg $?
