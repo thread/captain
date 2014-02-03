@@ -10,7 +10,9 @@ import subprocess
 from eventlet import wsgi
 
 re_upload = re.compile(r'^/(?P<repo>[^/]+)$')
+re_filename = re.compile(r'^(?P<name>[^_]+)_(?P<version>[^_]+)_[^_]+\.deb$')
 
+MAX_VERSIONS = 2
 ARCHITECTURES = ('i386', 'amd64')
 
 class Server(object):
@@ -185,6 +187,23 @@ class Server(object):
 
         # Move/overwrite the uploaded .deb into place
         os.rename(filename, fullpath)
+
+        # Ensure there are only MAX_VERSIONS of each package.
+        for base, _, filenames in os.walk(component_dir):
+            packages = {}
+
+            for filename in filenames:
+                m = re_filename.match(filename)
+                if m is None:
+                    continue
+
+                packages.setdefault(m.group('name'), []).append(
+                    (m.group('version'), filename)
+                )
+
+            for x in packages.values():
+                for _, filename in sorted(x, reverse=True)[MAX_VERSIONS:]:
+                    os.unlink(os.path.join(base, filename))
 
         # Update Packages file for architectures
         for x in ARCHITECTURES:
