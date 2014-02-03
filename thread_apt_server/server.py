@@ -3,11 +3,14 @@ import re
 import sha
 import time
 import json
+import apt_pkg
 import eventlet
 import tempfile
 import subprocess
 
 from eventlet import wsgi
+
+apt_pkg.init_system()
 
 re_upload = re.compile(r'^/(?P<repo>[^/]+)$')
 re_filename = re.compile(r'^(?P<name>[^_]+)_(?P<version>[^_]+)_[^_]+\.deb$')
@@ -202,7 +205,11 @@ class Server(object):
                 )
 
             for x in packages.values():
-                for _, filename in sorted(x, reverse=True)[MAX_VERSIONS:]:
+                for _, filename in sorted(
+                    x,
+                    cmp=lambda x, y: apt_pkg.version_compare(x[0], y[0]),
+                    reverse=True,
+                )[MAX_VERSIONS:]:
                     os.unlink(os.path.join(base, filename))
 
         # Update Packages file for architectures

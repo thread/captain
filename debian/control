@@ -13,6 +13,7 @@ Depends:
   ${python:Depends},
   gnupg,
   dpkg-dev,
+  python-apt,
   python-daemon,
   python-eventlet,
 Description: Thread APT server
