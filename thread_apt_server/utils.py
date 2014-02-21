@@ -2,7 +2,7 @@ import re
 import json
 import urlparse
 
-from .exceptions import Http400
+from .exceptions import Http404
 
 re_upload = re.compile(r'^/(?P<repo>[^/]+)$')
 
