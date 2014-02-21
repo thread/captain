@@ -120,11 +120,12 @@ class Server(object):
             raise Http404()
 
         f = tempfile.NamedTemporaryFile(delete=False)
+        repo = m.group('repo')
 
         try:
             f.write(env['wsgi.input'].read(size))
             f.flush()
-            package, created = self.process_upload(m.group('repo'), f.name)
+            package, created = self.process_upload(repo, f.name)
         finally:
             try:
                 os.unlink(f.name)
@@ -135,7 +136,7 @@ class Server(object):
 
 
         return json_response(start_response, {
-            'repo': m.group('repo'),
+            'repo': repo,
             'created': created,
             'package': package,
         }, http_header="201 Created" if created else "200 OK")
