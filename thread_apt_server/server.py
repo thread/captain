@@ -130,12 +130,15 @@ class Server(object):
                 # blow up in the equivalent place
                 pass
 
+        self.refresh_repo(repo)
 
         return json_response(start_response, {
             'repo': repo,
             'created': created,
             'package': package,
         }, http_header="201 Created" if created else "200 OK")
+
+    ###########################################################################
 
     def process_upload(self, repo, filename):
         # python-debian does not support xz so we have to do this manually
@@ -150,44 +153,35 @@ class Server(object):
 
             return result
 
+        self.ensure_dirs(repo)
+
         deb = dict(
             (x, extract(x)) for x in ('Package', 'Version', 'Architecture'),
         )
 
-        # Calculate some filenames
-        repo_dir = os.path.join(self.options.base_dir, 'dists', repo)
-        component_dir = os.path.join(repo_dir, 'main')
-
-        release = os.path.join(repo_dir, 'Release')
-
-        # Ensure binary-ARCH dirs exist for all common arches. This ensures we
-        # get updated Packages files for all architectures even if they have no
-        # files.
-        for x in ARCHITECTURES:
-            try:
-                os.makedirs(os.path.join(component_dir, 'binary-%s' % x))
-            except OSError:
-                pass
-
-        # Also create a special "arch-all" directory - APT won't actually
-        # access files in this directory, but all the other arches need to see
-        # these packages.
-        try:
-            os.makedirs(os.path.join(component_dir, 'arch-all'))
-        except OSError:
-            pass
-
         # Calculate target filename
         fullpath = os.path.join(
-            component_dir,
+            self.options.base_dir,
+            'dists',
+            repo,
+            'main',
             'binary-%(Architecture)s' % deb \
                 if deb['Architecture'] != 'all' else 'arch-all',
             '%(Package)s_%(Version)s_%(Architecture)s.deb' % deb,
         )
+
         created = not os.path.exists(fullpath)
 
         # Move/overwrite the uploaded .deb into place
         os.rename(filename, fullpath)
+
+        return deb, created
+
+    def refresh_repo(self, repo):
+        repo_dir = os.path.join(self.options.base_dir, 'dists', repo)
+        component_dir = os.path.join(repo_dir, 'main')
+
+        self.ensure_dirs(repo)
 
         # Ensure there are only MAX_VERSIONS of each package.
         for base, _, filenames in os.walk(component_dir):
@@ -236,6 +230,8 @@ class Server(object):
                 )
 
         # Generate Release
+        release = os.path.join(repo_dir, 'Release')
+
         with open(release, 'w') as f:
             print >>f, "Archive: stable"
             print >>f, "Origin: Thread"
@@ -275,4 +271,29 @@ class Server(object):
 
         os.rename('%s.gpg.new' % release, '%s.gpg' % release)
 
-        return deb, created
+    ###########################################################################
+
+    def ensure_dirs(self, repo):
+        component_dir = os.path.join(
+            self.options.base_dir,
+            'dists',
+            repo,
+            'main',
+        )
+
+        # Ensure binary-ARCH dirs exist for all common arches. This ensures we
+        # get updated Packages files for all architectures even if they have no
+        # files.
+        for x in ARCHITECTURES:
+            try:
+                os.makedirs(os.path.join(component_dir, 'binary-%s' % x))
+            except OSError:
+                pass
+
+        # Also create a special "arch-all" directory - APT won't actually
+        # access files in this directory, but all the other arches need to see
+        # these packages.
+        try:
+            os.makedirs(os.path.join(component_dir, 'arch-all'))
+        except OSError:
+            pass
