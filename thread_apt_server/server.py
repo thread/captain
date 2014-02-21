@@ -164,8 +164,6 @@ class Server(object):
 
             return result
 
-        self.ensure_dirs(repo)
-
         deb = dict(
             (x, extract(x)) for x in ('Package', 'Version', 'Architecture'),
         )
@@ -181,6 +179,11 @@ class Server(object):
             '%(Package)s_%(Version)s_%(Architecture)s.deb' % deb,
         )
 
+        try:
+            os.makedirs(os.path.dirname(fullpath))
+        except OSError:
+            pass
+
         created = not os.path.exists(fullpath)
 
         # Move/overwrite the uploaded .deb into place
@@ -192,7 +195,22 @@ class Server(object):
         repo_dir = os.path.join(self.options.base_dir, 'dists', repo)
         component_dir = os.path.join(repo_dir, 'main')
 
-        self.ensure_dirs(repo)
+        # Ensure binary-ARCH dirs exist for all common arches. This ensures we
+        # get updated Packages files for all architectures even if they have no
+        # files.
+        for x in ARCHITECTURES:
+            try:
+                os.makedirs(os.path.join(component_dir, 'binary-%s' % x))
+            except OSError:
+                pass
+
+        # Also create a special "arch-all" directory - APT won't actually
+        # access files in this directory, but all the other arches need to see
+        # these packages.
+        try:
+            os.makedirs(os.path.join(component_dir, 'arch-all'))
+        except OSError:
+            pass
 
         # Ensure there are only MAX_VERSIONS of each package.
         for base, _, filenames in os.walk(component_dir):
@@ -281,30 +299,3 @@ class Server(object):
         ), stderr=subprocess.PIPE)
 
         os.rename('%s.gpg.new' % release, '%s.gpg' % release)
-
-    ###########################################################################
-
-    def ensure_dirs(self, repo):
-        component_dir = os.path.join(
-            self.options.base_dir,
-            'dists',
-            repo,
-            'main',
-        )
-
-        # Ensure binary-ARCH dirs exist for all common arches. This ensures we
-        # get updated Packages files for all architectures even if they have no
-        # files.
-        for x in ARCHITECTURES:
-            try:
-                os.makedirs(os.path.join(component_dir, 'binary-%s' % x))
-            except OSError:
-                pass
-
-        # Also create a special "arch-all" directory - APT won't actually
-        # access files in this directory, but all the other arches need to see
-        # these packages.
-        try:
-            os.makedirs(os.path.join(component_dir, 'arch-all'))
-        except OSError:
-            pass
