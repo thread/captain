@@ -138,7 +138,7 @@ class Server(object):
             'repo': m.group('repo'),
             'created': created,
             'package': package,
-        })]
+        }) + '\n']
 
     def process_upload(self, repo, filename):
         # python-debian does not support xz so we have to do this manually
