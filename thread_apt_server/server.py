@@ -123,7 +123,7 @@ class Server(object):
         try:
             f.write(env['wsgi.input'].read(size))
             f.flush()
-            metadata, created = self.process_upload(m.group('repo'), f.name)
+            package, created = self.process_upload(m.group('repo'), f.name)
         finally:
             try:
                 os.unlink(f.name)
@@ -135,8 +135,9 @@ class Server(object):
         start_response("201 Created" if created else "200 OK", [])
 
         return [json.dumps({
+            'repo': m.group('repo'),
             'created': created,
-            'metadata': metadata,
+            'package': package,
         })]
 
     def process_upload(self, repo, filename):
