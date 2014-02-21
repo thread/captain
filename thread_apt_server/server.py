@@ -35,6 +35,7 @@ class Server(object):
             'started': int(time.time()),
             'num_GET': 0,
             'num_PUT': 0,
+            'num_POST': 0,
         }
 
         self.log.info("Initialised")
@@ -104,6 +105,17 @@ class Server(object):
         start_response("200 OK", [])
         with open(fullpath, 'rb') as f:
             return [f.read()]
+
+    def process_POST(self, env, start_response):
+        self.stats['num_POST'] += 1
+
+        repo = parse_repo(env)
+
+        self.refresh_repo(repo)
+
+        return json_response(start_response, {
+            'repo': repo,
+        })
 
     def process_PUT(self, env, start_response):
         self.stats['num_PUT'] += 1
