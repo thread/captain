@@ -2,7 +2,6 @@ import os
 import re
 import sha
 import time
-import json
 import apt_pkg
 import eventlet
 import tempfile
