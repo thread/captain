@@ -186,7 +186,7 @@ class Server(object):
                 if deb['Architecture'] != 'all' else 'arch-all',
             '%(Package)s_%(Version)s_%(Architecture)s.deb' % deb,
         )
-        existed = os.path.exists(fullpath)
+        created = not os.path.exists(fullpath)
 
         # Move/overwrite the uploaded .deb into place
         os.rename(filename, fullpath)
@@ -277,7 +277,7 @@ class Server(object):
 
         os.rename('%s.gpg.new' % release, '%s.gpg' % release)
 
-        return existed
+        return created
 
 class HttpException(Exception):
     pass
