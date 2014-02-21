@@ -11,7 +11,7 @@ import subprocess
 from eventlet import wsgi
 
 from .utils import json_response, parse_repo
-from .exceptions import Http400, Http403, Http404, Http405
+from .exceptions import BaseHttpException, Http400, Http403, Http404, Http405
 
 apt_pkg.init_system()
 
@@ -62,7 +62,7 @@ class Server(object):
                 raise Http400()
 
             return fn(env, start_response)
-        except HttpException, exc:
+        except BaseHttpException, exc:
             start_response(exc.message, [])
             return [exc.message]
 
