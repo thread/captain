@@ -10,6 +10,8 @@ import subprocess
 
 from eventlet import wsgi
 
+from .utils import json_response
+
 apt_pkg.init_system()
 
 re_upload = re.compile(r'^/(?P<repo>[^/]+)$')
@@ -88,8 +90,7 @@ class Server(object):
                 'uptime': int(time.time() - self.stats['started']),
             })
 
-            start_response('200 OK', [('Content-Type', 'application/json')])
-            return [json.dumps(self.stats)]
+            return json_response(start_response, self.stats)
 
         self.stats['num_GET'] += 1
 
@@ -132,13 +133,12 @@ class Server(object):
                 # blow up in the equivalent place
                 pass
 
-        start_response("201 Created" if created else "200 OK", [])
 
-        return [json.dumps({
+        return json_response(start_response, {
             'repo': m.group('repo'),
             'created': created,
             'package': package,
-        }) + '\n']
+        }, http_header="201 Created" if created else "200 OK")
 
     def process_upload(self, repo, filename):
         # python-debian does not support xz so we have to do this manually
