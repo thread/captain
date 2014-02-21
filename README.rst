@@ -24,3 +24,16 @@ Client setup
   $ echo 'http://server:3333 _repo_ main' >> /etc/apt/sources.list
   $ curl http://server:3333 > /etc/apt/trusted.gpg.d/thread.gpg
   $ apt-get update
+
+Uploading multiple files
+------------------------
+
+Each upload will refresh the repo from scratch. However, you can save some
+processing time for large repos by skipping refreshing the repo until the end
+by POSTing to the repo URL::
+
+  for X in *.deb; do
+      curl --upload-file ${DEB} http://server:3333/myrepo?refresh_repo=0
+  done
+
+  curl -X POST http://server:3333/myrepo

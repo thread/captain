@@ -9,7 +9,7 @@ import subprocess
 
 from eventlet import wsgi
 
-from .utils import json_response, parse_repo
+from .utils import json_response, parse_repo, parse_querystring
 from .exceptions import BaseHttpException, Http400, Http403, Http404, Http405
 
 apt_pkg.init_system()
@@ -141,7 +141,9 @@ class Server(object):
                 # blow up in the equivalent place
                 pass
 
-        self.refresh_repo(repo)
+        # Pass in ?refresh_repo=0 to skip repo refresh
+        if parse_querystring(env).get('refresh_repo') != '0':
+            self.refresh_repo(repo)
 
         return json_response(start_response, {
             'repo': repo,

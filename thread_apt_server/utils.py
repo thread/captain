@@ -1,5 +1,6 @@
 import re
 import json
+import urlparse
 
 from .exceptions import Http400
 
@@ -17,3 +18,12 @@ def json_response(start_response, val, http_header='200 OK'):
     start_response(http_header, [('Content-Type', 'application/json')])
 
     return [json.dumps(val) + '\n']
+
+def parse_querystring(env):
+    result = {}
+
+    for k, v in urlparse.parse_qsl(env.get('QUERY_STRING', '')):
+        # Always use the last value
+        result[k] = v
+
+    return result
