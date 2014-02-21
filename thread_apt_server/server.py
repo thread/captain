@@ -123,7 +123,7 @@ class Server(object):
         try:
             f.write(env['wsgi.input'].read(size))
             f.flush()
-            existed = self.process_upload(m.group('repo'), f.name)
+            metadata, created = self.process_upload(m.group('repo'), f.name)
         finally:
             try:
                 os.unlink(f.name)
@@ -132,12 +132,12 @@ class Server(object):
                 # blow up in the equivalent place
                 pass
 
-        if existed:
-            start_response("200 OK", [])
-            return ["OK"]
+        start_response("201 Created" if created else "200 OK", [])
 
-        start_response("201 Created", [])
-        return ["Created"]
+        return [json.dumps({
+            'created': created,
+            'metadata': metadata,
+        })]
 
     def process_upload(self, repo, filename):
         # python-debian does not support xz so we have to do this manually
@@ -277,7 +277,7 @@ class Server(object):
 
         os.rename('%s.gpg.new' % release, '%s.gpg' % release)
 
-        return created
+        return deb, created
 
 class HttpException(Exception):
     pass
