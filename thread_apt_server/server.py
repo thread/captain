@@ -10,12 +10,11 @@ import subprocess
 
 from eventlet import wsgi
 
-from .utils import json_response
+from .utils import json_response, parse_repo
 from .exceptions import Http400, Http403, Http404, Http405
 
 apt_pkg.init_system()
 
-re_upload = re.compile(r'^/(?P<repo>[^/]+)$')
 re_filename = re.compile(r'^(?P<name>[^_]+)_(?P<version>[^_]+)_[^_]+\.deb$')
 
 MAX_VERSIONS = 2
@@ -115,13 +114,9 @@ class Server(object):
         except (ValueError, KeyError):
             raise Http400()
 
-        m = re_upload.match(env['PATH_INFO'])
-
-        if m is None:
-            raise Http404()
+        repo = parse_repo(env)
 
         f = tempfile.NamedTemporaryFile(delete=False)
-        repo = m.group('repo')
 
         try:
             f.write(env['wsgi.input'].read(size))
