@@ -17,7 +17,7 @@ GPG_HOME="/var/lib/thread-apt-server/gpghome"
 #
 ARCHIVE="stable"
 
-# Release file Origin header (Default: Thread)
+# Release file Origin header (Default: thread-apt-server)
 #
 # May be displayed to the user by package management tool so that the user can
 # tell apart different repositories or used for pinning.
