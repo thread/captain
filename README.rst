@@ -4,7 +4,7 @@ thread-apt-server
 Instructions
 ------------
 
- $ curl --upload-file my.deb http://server:3333/_repo_
+ $ curl --upload-file my.deb http://server:3333/reponame
 
 For example:
 
@@ -21,7 +21,7 @@ keyid generated.
 Client setup
 ------------
 
-  $ echo 'http://server:3333 _repo_ main' >> /etc/apt/sources.list
+  $ echo 'deb http://server:3333 reponame main' >> /etc/apt/sources.list
   $ curl http://server:3333 > /etc/apt/trusted.gpg.d/thread.gpg
   $ apt-get update
 
