@@ -9,21 +9,18 @@ GROUP="www-data"
 
 case "${1}" in
 	configure)
-		if [ -d "${GPG_HOME}" ]
+		if [ ! -d "${ARCHIVE_ROOT}" ]
 		then
-			GENERATE_KEY=0
-		else
-			GENERATE_KEY=1
+			mkdir -p "${ARCHIVE_ROOT}"
+			chown -R ${USER}:${GROUP} "${ARCHIVE_ROOT}"
 		fi
 
-		mkdir -p "${ARCHIVE_ROOT}"
-		mkdir -m700 -p "${GPG_HOME}"
-
-		chown -R ${USER}:${GROUP} "${GPG_HOME}"
-		chown -R ${USER}:${GROUP} "${ARCHIVE_ROOT}"
-
-		if [ ${GENERATE_KEY} = 1 ]
+		if [ ! -d "${GPG_HOME}" ]
 		then
+			mkdir -p "${GPG_HOME}"
+			chown -R ${USER}:${GROUP} "${GPG_HOME}"
+			chmod 700 "${GPG_HOME}"
+
 			echo "I: Generating GnuPG key in ${GPG_HOME}..."
 			su ${USER} -c "gpg --batch --homedir ${GPG_HOME} --gen-key -" <<EOF
 Key-Type: RSA
