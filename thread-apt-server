@@ -11,8 +11,6 @@ import logging.handlers
 
 from daemon.pidlockfile import PIDLockFile
 
-sys.path.insert(0, '')
-
 from thread_apt_server.server import Server
 
 def main():
