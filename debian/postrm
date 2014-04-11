@@ -4,8 +4,14 @@
 
 set -e
 
+ARCHIVE_ROOT="/var/lib/thread-apt-server/archive"
+GPG_HOME="/var/lib/thread-apt-server/gpghome"
+
 if [ "$1" = "purge" ]
 then
 	rm -rf /var/run/thread-apt-server
 	rm -rf /var/log/thread-apt-server
+
+	rm -rf "${ARCHIVE_ROOT}"
+	rm -rf "${GPG_HOME}"
 fi
