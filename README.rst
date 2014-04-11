@@ -22,7 +22,7 @@ Client setup
 ------------
 
   $ echo 'deb http://server:3333 reponame main' >> /etc/apt/sources.list
-  $ curl http://server:3333 > /etc/apt/trusted.gpg.d/thread.gpg
+  $ curl http://server:3333 > /etc/apt/trusted.gpg.d/server.gpg
   $ apt-get update
 
 Uploading multiple files
