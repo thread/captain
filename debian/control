@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: Thread, Inc. <tech@thread.com>
 Build-Depends: debhelper (>= 7.0.50~), python
-Standards-Version: 3.9.4
+Standards-Version: 3.9.5
 
 Package: thread-apt-server
 Architecture: all
