@@ -67,6 +67,7 @@ class Server(object):
             start_response(e.message, [])
             return [e.message]
         except Exception, e:
+            self.log.exception("Exception when processing request")
             start_response("500 Internal Server Error", [])
             return [traceback.format_exc()]
 
