@@ -4,7 +4,7 @@ import urlparse
 
 from .exceptions import Http404
 
-re_upload = re.compile(r'^/(?P<repo>\w+)$')
+re_upload = re.compile(r'^/(?P<repo>[-\w]+)$')
 
 def parse_repo(env):
     m = re_upload.match(env['PATH_INFO'])
