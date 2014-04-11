@@ -5,6 +5,7 @@ import time
 import apt_pkg
 import eventlet
 import tempfile
+import traceback
 import subprocess
 
 from eventlet import wsgi
@@ -62,9 +63,12 @@ class Server(object):
                 raise Http400()
 
             return fn(env, start_response)
-        except BaseHttpException, exc:
-            start_response(exc.message, [])
-            return [exc.message]
+        except BaseHttpException, e:
+            start_response(e.message, [])
+            return [e.message]
+        except Exception, e:
+            start_response("500 Internal Server Error", [])
+            return [traceback.format_exc()]
 
     def fullpath_from_uri(self, uri):
         result = os.path.abspath(
