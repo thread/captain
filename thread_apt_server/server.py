@@ -26,7 +26,7 @@ class Server(object):
         self.options = options
 
         self.log.info("Opening sockets...")
-        self.wsgi_socket = eventlet.listen(('0.0.0.0', 3333))
+        self.wsgi_socket = eventlet.listen((self.options.bind, self.options.port))
 
         self.pool = eventlet.GreenPool(10000)
 
@@ -73,13 +73,13 @@ class Server(object):
 
     def fullpath_from_uri(self, uri):
         result = os.path.abspath(
-            os.path.join(self.options.base_dir, uri.lstrip('/'))
+            os.path.join(self.options.archive_root, uri.lstrip('/'))
         )
 
-        if not result.startswith(self.options.base_dir):
+        if not result.startswith(self.options.archive_root):
             raise Http403()
 
-        return os.path.join(self.options.base_dir, uri.lstrip('/'))
+        return os.path.join(self.options.archive_root, uri.lstrip('/'))
 
     ###########################################################################
 
@@ -177,7 +177,7 @@ class Server(object):
 
         # Calculate target filename
         fullpath = os.path.join(
-            self.options.base_dir,
+            self.options.archive_root,
             'dists',
             repo,
             'main',
@@ -187,7 +187,7 @@ class Server(object):
         )
 
         try:
-            os.makedirs(os.path.dirname(fullpath))
+            os.makedirs(os.path.dirname(fullpath), mode=0755)
         except OSError:
             pass
 
@@ -199,7 +199,7 @@ class Server(object):
         return deb, created
 
     def refresh_repo(self, repo):
-        repo_dir = os.path.join(self.options.base_dir, 'dists', repo)
+        repo_dir = os.path.join(self.options.archive_root, 'dists', repo)
         component_dir = os.path.join(repo_dir, 'main')
 
         # Ensure binary-ARCH dirs exist for all common arches. This ensures we
@@ -252,7 +252,7 @@ class Server(object):
                     'repo': repo,
                     'arch': x,
                     'target': target,
-                }), cwd=self.options.base_dir, stderr=subprocess.PIPE)
+                }), cwd=self.options.archive_root, stderr=subprocess.PIPE)
 
             for cmd in (
                 'bzip2 -9 -c Packages.new > Packages.bz2.new',
@@ -269,8 +269,8 @@ class Server(object):
         release = os.path.join(repo_dir, 'Release')
 
         with open(release, 'w') as f:
-            print >>f, "Archive: stable"
-            print >>f, "Origin: Thread"
+            print >>f, "Archive: %s" % self.options.archive
+            print >>f, "Origin: %s" % self.options.origin
             print >>f, "Suite: %s" % repo
             print >>f, "SHA1:"
 

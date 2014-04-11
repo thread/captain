@@ -18,9 +18,14 @@ def main():
 
     parser.add_option('--logfile', dest='log_file')
     parser.add_option('--pidfile', dest='pid_file', default='')
-    parser.add_option('--base-dir', dest='base_dir', default='./base_dir')
-    parser.add_option('--gpg-home', dest='gpg_home', default='./gpg-home-example')
     parser.add_option('--verbosity', dest='verbosity', default=2, type='int')
+
+    parser.add_option('--archive-root', dest='archive_root', default='./archive_root')
+    parser.add_option('--gpg-home', dest='gpg_home', default='./gpg-home-example')
+    parser.add_option('--archive', dest='archive', default='thread-apt-server')
+    parser.add_option('--origin', dest='origin', default='thread-apt-server')
+    parser.add_option('--port', dest='port', default=3333, type='int')
+    parser.add_option('--bind', dest='bind', default='127.0.0.1')
 
     options, args = parser.parse_args()
 
@@ -31,7 +36,7 @@ def main():
             files_preserve=range(daemon.daemon.get_maximum_file_descriptors()),
         )
 
-    for x in ('base_dir', 'gpg_home'):
+    for x in ('archive_root', 'gpg_home'):
         # Ensure paths are absolute
         setattr(options, x, os.path.abspath(getattr(options, x)))
 
