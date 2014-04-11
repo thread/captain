@@ -18,14 +18,26 @@ RUNPATH=/var/run/${NAME}
 PIDFILE=${RUNPATH}/${NAME}.pid
 LOGFILE=/var/log/${NAME}/${NAME}.log
 
-BASE_DIR=/srv/apt.srv.thread.com
-GPG_HOME=/srv/apt.srv.thread.com/gpg
-
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 test -x ${DAEMON} || exit 0
 
 . /lib/lsb/init-functions
+
+# Defaults
+ARCHIVE_ROOT="/srv/apt.srv.thread.com"
+GPG_HOME="/srv/apt.srv.thread.com/gpg"
+ARCHIVE="Thread"
+ORIGIN="Thread"
+PORT="3333"
+BIND="0.0.0.0"
+USER="www-data"
+GROUP="www-data"
+
+if [ -r /etc/default/$NAME ]
+then
+	. /etc/default/$NAME
+fi
 
 case "${1:-}" in
 	start)
@@ -34,19 +46,23 @@ case "${1:-}" in
 		for FILE in ${PIDFILE} ${LOGFILE}
 		do
 			mkdir -p $(dirname ${FILE})
-			chown www-data:www-data $(dirname ${FILE})
+			chown ${USER}:${GROUP} $(dirname ${FILE})
 		done
 
-                start-stop-daemon --start --oknodo --chuid www-data:www-data \
-                    --pidfile ${PIDFILE} \
-		    --chdir / \
-                    --exec ${DAEMON} -- \
-                    --pidfile ${PIDFILE} \
-		    --verbosity=1 \
-		    --base-dir ${BASE_DIR} \
-		    --gpg-home ${GPG_HOME} \
-		    --logfile ${LOGFILE}
-
+                start-stop-daemon --start --oknodo --chuid ${USER}:${GROUP} \
+			--pidfile ${PIDFILE} \
+			--chdir / \
+			--exec ${DAEMON} -- \
+			--pidfile ${PIDFILE} \
+			--logfile ${LOGFILE} \
+			--verbosity=1 \
+			--archive-root ${ARCHIVE_ROOT} \
+			--gpg-home ${GPG_HOME} \
+			--archive ${ARCHIVE} \
+			--origin ${ORIGIN} \
+			--port ${PORT} \
+			--bind ${BIND} \
+			--
 		log_end_msg $?
         ;;
 

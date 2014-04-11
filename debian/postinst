@@ -1,0 +1,51 @@
+#!/bin/sh
+
+set -eu
+
+ARCHIVE_ROOT="/srv/apt.srv.thread.com"
+GPG_HOME="/srv/apt.srv.thread.com/gpg"
+USER="www-data"
+GROUP="www-data"
+
+case "${1}" in
+	configure)
+		if [ -d "${GPG_HOME}" ]
+		then
+			GENERATE_KEY=0
+		else
+			GENERATE_KEY=1
+		fi
+
+		mkdir -p "${ARCHIVE_ROOT}"
+		mkdir -m700 -p "${GPG_HOME}"
+
+		chown -R ${USER}:${GROUP} "${GPG_HOME}"
+		chown -R ${USER}:${GROUP} "${ARCHIVE_ROOT}"
+
+		if [ ${GENERATE_KEY} = 1 ]
+		then
+			echo "I: Generating GnuPG key in ${GPG_HOME}..."
+			su ${USER} -c "gpg --batch --homedir ${GPG_HOME} --gen-key -" <<EOF
+Key-Type: RSA
+Key-Length: 2048
+Subkey-Type: ELG-E
+Subkey-Length: 1024
+Name-Real: thread-apt-server
+Expire-Date: 0
+%commit
+EOF
+		fi
+		;;
+
+	abort-upgrade|abort-remove|abort-deconfigure)
+		;;
+
+	*)
+		echo "postinst called with unknown argument \`${1}'" >&2
+		exit 1
+		;;
+esac
+
+#DEBHELPER#
+
+exit 0
