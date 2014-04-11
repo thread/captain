@@ -2,8 +2,8 @@
 
 set -eu
 
-ARCHIVE_ROOT="/srv/apt.srv.thread.com"
-GPG_HOME="/srv/apt.srv.thread.com/gpg"
+ARCHIVE_ROOT="/var/lib/thread-apt-server/archive"
+GPG_HOME="/var/lib/thread-apt-server/gpghome"
 USER="www-data"
 GROUP="www-data"
 

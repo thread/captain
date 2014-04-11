@@ -25,12 +25,12 @@ test -x ${DAEMON} || exit 0
 . /lib/lsb/init-functions
 
 # Defaults
-ARCHIVE_ROOT="/srv/apt.srv.thread.com"
-GPG_HOME="/srv/apt.srv.thread.com/gpg"
-ARCHIVE="Thread"
-ORIGIN="Thread"
+ARCHIVE_ROOT="/var/lib/thread-apt-server/archive"
+GPG_HOME="/var/lib/thread-apt-server/gpghome"
+ARCHIVE="stable"
+ORIGIN="thread-apt-server"
 PORT="3333"
-BIND="0.0.0.0"
+BIND="127.0.0.1"
 USER="www-data"
 GROUP="www-data"
 

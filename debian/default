@@ -4,11 +4,11 @@
 
 # Archive root directory (Default: /srv/apt.srv.thread.com)
 #
-ARCHIVE_ROOT="/srv/apt.srv.thread.com"
+ARCHIVE_ROOT="/var/lib/thread-apt-server/archive"
 
 # Root directory for GPG key (Default: /srv/apt.srv.thread.com/gpg)
 #
-GPG_HOME="/srv/apt.srv.thread.com/gpg"
+GPG_HOME="/var/lib/thread-apt-server/gpghome"
 
 # Release file Archive header (Default: stable)
 #
@@ -22,20 +22,20 @@ ARCHIVE="stable"
 # May be displayed to the user by package management tool so that the user can
 # tell apart different repositories or used for pinning.
 #
-ORIGIN="Thread"
+ORIGIN="thread-apt-server"
 
 # Accept HTTP connections on the specified TCP port, (Default: 3333)
 #
 PORT="3333"
 
-# Which network interfaces to listen on. (Default: 0.0.0.0)
+# Which network interfaces to listen on. (Default: 127.0.0.1)
 #
 # Examples:
 #
-# BIND="127.0.0.1"
+# BIND="0.0.0.0"
 # BIND="1.2.3.4"
 #
-BIND="0.0.0.0"
+BIND="127.0.0.1"
 
 # User to run thread-apt-server as (Default: www-data)
 #
