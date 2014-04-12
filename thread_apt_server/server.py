@@ -184,10 +184,11 @@ class Server(object):
             '%(Package)s_%(Version)s_%(Architecture)s.deb' % deb,
         )
 
-        try:
-            os.makedirs(os.path.dirname(fullpath), mode=0755)
-        except OSError:
-            pass
+        fullpath_parent = os.path.dirname(fullpath)
+
+        # Check first so we don't mask errors creating the directories
+        if not os.path.isdir(fullpath_parent):
+            os.makedirs(fullpath_parent, mode=0755)
 
         created = not os.path.exists(fullpath)
 
