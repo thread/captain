@@ -2,11 +2,11 @@
 # Default for /etc/init.d/thread-apt-server
 #
 
-# Archive root directory (Default: /srv/apt.srv.thread.com)
+# Archive root directory (Default: /var/lib/thread-apt-server)
 #
 ARCHIVE_ROOT="/var/lib/thread-apt-server"
 
-# Root directory for GPG key (Default: /srv/apt.srv.thread.com/gpg)
+# Root directory for GPG key (Default: /var/lib/thread-apt-server/gpghome)
 #
 GPG_HOME="/var/lib/thread-apt-server/gpghome"
 
