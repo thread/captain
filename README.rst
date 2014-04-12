@@ -10,6 +10,10 @@ For example:
 
  $ curl --upload-file python-bcrypt_0.4-1_amd64.deb http://127.0.0.1:3333/wheezy-backports
 
+To upload using curl from a pipe, ensure you use --data-binary:
+
+ $ curl -X PUT --data-binary @- http://127.0.0.1:3333/reponame < my.deb
+
 Creating a new key
 ------------------
 
