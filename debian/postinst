@@ -2,7 +2,7 @@
 
 set -eu
 
-ARCHIVE_ROOT="/var/lib/thread-apt-server/archive"
+ARCHIVE_ROOT="/var/lib/thread-apt-server"
 GPG_HOME="/var/lib/thread-apt-server/gpghome"
 USER="www-data"
 GROUP="www-data"

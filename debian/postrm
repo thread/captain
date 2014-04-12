@@ -4,7 +4,7 @@
 
 set -e
 
-ARCHIVE_ROOT="/var/lib/thread-apt-server/archive"
+ARCHIVE_ROOT="/var/lib/thread-apt-server"
 GPG_HOME="/var/lib/thread-apt-server/gpghome"
 
 if [ "$1" = "purge" ]

@@ -4,7 +4,7 @@
 
 # Archive root directory (Default: /srv/apt.srv.thread.com)
 #
-ARCHIVE_ROOT="/var/lib/thread-apt-server/archive"
+ARCHIVE_ROOT="/var/lib/thread-apt-server"
 
 # Root directory for GPG key (Default: /srv/apt.srv.thread.com/gpg)
 #

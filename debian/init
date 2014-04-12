@@ -25,7 +25,7 @@ test -x ${DAEMON} || exit 0
 . /lib/lsb/init-functions
 
 # Defaults
-ARCHIVE_ROOT="/var/lib/thread-apt-server/archive"
+ARCHIVE_ROOT="/var/lib/thread-apt-server"
 GPG_HOME="/var/lib/thread-apt-server/gpghome"
 ARCHIVE="stable"
 ORIGIN="thread-apt-server"
