@@ -33,7 +33,7 @@ processing time for large repos by skipping refreshing the repo until the end
 by POSTing to the repo URL::
 
   for X in *.deb; do
-      curl --upload-file ${DEB} http://server:3333/myrepo?refresh_repo=0
+      curl --upload-file ${X} http://server:3333/myrepo?refresh_repo=0
   done
 
   curl -X POST http://server:3333/myrepo
