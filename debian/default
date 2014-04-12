@@ -24,6 +24,12 @@ ARCHIVE="stable"
 #
 ORIGIN="thread-apt-server"
 
+# Number of versions of each package to keep (Default: 2)
+#
+# Older versions are automatically rotated.
+#
+MAX_VERSIONS="2"
+
 # Accept HTTP connections on the specified TCP port, (Default: 3333)
 #
 PORT="3333"

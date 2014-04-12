@@ -18,7 +18,6 @@ apt_pkg.init_system()
 
 re_filename = re.compile(r'^(?P<name>[^_]+)_(?P<version>[^_]+)_[^_]+\.deb$')
 
-MAX_VERSIONS = 2
 ARCHITECTURES = ('i386', 'amd64')
 
 class Server(object):
@@ -219,7 +218,7 @@ class Server(object):
         except OSError:
             pass
 
-        # Ensure there are only MAX_VERSIONS of each package.
+        # Ensure there are only X versions of each package.
         for base, _, filenames in os.walk(component_dir):
             packages = {}
 
@@ -237,7 +236,7 @@ class Server(object):
                     x,
                     cmp=lambda x, y: apt_pkg.version_compare(x[0], y[0]),
                     reverse=True,
-                )[MAX_VERSIONS:]:
+                )[self.options.max_versions:]:
                     os.unlink(os.path.join(base, filename))
 
         # Update Packages file for architectures
