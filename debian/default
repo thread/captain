@@ -30,6 +30,10 @@ ORIGIN="thread-apt-server"
 #
 MAX_VERSIONS="2"
 
+# Which architectures to support (Default: i386,amd64)
+#
+ARCHITECTURES="i386,amd64"
+
 # Accept HTTP connections on the specified TCP port, (Default: 3333)
 #
 PORT="3333"

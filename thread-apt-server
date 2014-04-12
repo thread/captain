@@ -16,6 +16,13 @@ from thread_apt_server.server import Server
 def main():
     parser = optparse.OptionParser()
 
+    def architectures_callback(option, opt, value, parser):
+        setattr(
+            parser.values,
+            option.dest,
+            [x for x in value.split(',') if x],
+        )
+
     parser.add_option('--logfile', dest='log_file')
     parser.add_option('--pidfile', dest='pid_file', default='')
     parser.add_option('--verbosity', dest='verbosity', default=2, type='int')
@@ -24,11 +31,18 @@ def main():
     parser.add_option('--gpg-home', dest='gpg_home', default='./root/gpghome')
     parser.add_option('--archive', dest='archive', default='stable')
     parser.add_option('--origin', dest='origin', default='thread-apt-server')
-    parser.add_option('--max-versions', dest='max_versions', default=2, type='int')
+    parser.add_option('--max-versions', dest='max_versions', default=2,
+        type='int')
+    parser.add_option('--architectures', dest='architectures', type='string',
+        action='callback', default=('i386', 'amd64'),
+        callback=architectures_callback)
     parser.add_option('--port', dest='port', default=3333, type='int')
     parser.add_option('--bind', dest='bind', default='127.0.0.1')
 
     options, args = parser.parse_args()
+
+    if not options.architectures:
+        parser.error("Must specify at least one architecture.")
 
     context = noop()
     if options.pid_file:

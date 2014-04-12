@@ -18,8 +18,6 @@ apt_pkg.init_system()
 
 re_filename = re.compile(r'^(?P<name>[^_]+)_(?P<version>[^_]+)_[^_]+\.deb$')
 
-ARCHITECTURES = ('i386', 'amd64')
-
 class Server(object):
     def __init__(self, log, options):
         self.log = log
@@ -204,7 +202,7 @@ class Server(object):
         # Ensure binary-ARCH dirs exist for all common arches. This ensures we
         # get updated Packages files for all architectures even if they have no
         # files.
-        for x in ARCHITECTURES:
+        for x in self.options.architectures:
             try:
                 os.makedirs(os.path.join(component_dir, 'binary-%s' % x))
             except OSError:
@@ -240,7 +238,7 @@ class Server(object):
                     os.unlink(os.path.join(base, filename))
 
         # Update Packages file for architectures
-        for x in ARCHITECTURES:
+        for x in self.options.architectures:
             target = os.path.join(component_dir, 'binary-%s' % x, 'Packages.new')
 
             for cmd in (
