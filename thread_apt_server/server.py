@@ -162,15 +162,12 @@ class Server(object):
     def process_upload(self, repo, filename):
         # python-debian does not support xz so we have to do this manually
         def extract(field):
-            p = subprocess.Popen(
-                ('dpkg-deb', '--field', filename, field),
-                stdout=subprocess.PIPE,
-            )
-
-            result = p.communicate()[0].strip()
-            assert p.returncode == 0
-
-            return result
+            return subprocess.check_output((
+                'dpkg-deb',
+                '--field',
+                filename,
+                field,
+            )).strip()
 
         deb = dict(
             (x, extract(x)) for x in ('Package', 'Version', 'Architecture'),
@@ -250,21 +247,20 @@ class Server(object):
                 'dpkg-scanpackages -m dists/%(repo)s/main/binary-%(arch)s /dev/null > %(target)s',
                 'dpkg-scanpackages -m dists/%(repo)s/main/arch-all /dev/null >> %(target)s',
             ):
-                subprocess.check_call(('sh', '-c', cmd % {
+                subprocess.check_output(('sh', '-c', cmd % {
                     'repo': repo,
                     'arch': x,
                     'target': target,
-                }), cwd=self.options.archive_root, stderr=subprocess.PIPE)
+                }), cwd=self.options.archive_root)
 
             for cmd in (
                 'bzip2 -9 -c Packages.new > Packages.bz2.new',
                 'mv Packages.new Packages',
                 'mv Packages.bz2.new Packages.bz2',
             ):
-                subprocess.check_call(
+                subprocess.check_output(
                     ('sh', '-c', cmd),
                     cwd=os.path.dirname(target),
-                    stderr=subprocess.PIPE,
                 )
 
         # Generate Release
@@ -296,7 +292,7 @@ class Server(object):
         except:
             pass
 
-        subprocess.check_call((
+        subprocess.check_output((
             'gpg',
             '--homedir', self.options.gpg_home,
             '--no-permission-warning',
@@ -305,6 +301,6 @@ class Server(object):
             '--armor',
             '--output', '%s.gpg.new' % release,
             release,
-        ), stderr=subprocess.PIPE)
+        ))
 
         os.rename('%s.gpg.new' % release, '%s.gpg' % release)
