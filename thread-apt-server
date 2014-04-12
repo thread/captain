@@ -74,11 +74,11 @@ def main():
     # Open sockets, etc. before daemonising
     server = Server(log, options)
 
-    with context:
-        server.run()
-
     # Try and create files with 644 (rw-r--r--) permissions
     os.umask(022)
+
+    with context:
+        server.run()
 
     return 0
 
