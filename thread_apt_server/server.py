@@ -2,6 +2,7 @@ import os
 import re
 import sha
 import time
+import shutil
 import apt_pkg
 import eventlet
 import tempfile
@@ -193,8 +194,9 @@ class Server(object):
 
         created = not os.path.exists(fullpath)
 
-        # Move/overwrite the uploaded .deb into place
-        os.rename(filename, fullpath)
+        # Move/overwrite the uploaded .deb into place. We use shutil.move as
+        # os.rename won't work across filesystems.
+        shutil.move(filename, fullpath)
 
         return deb, created
 
