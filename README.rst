@@ -37,3 +37,15 @@ by POSTing to the repo URL::
   done
 
   curl -X POST http://127.0.0.1:3333/reponame
+
+Removing versions
+-----------------
+
+Versions are automatically rotated, but to manually remove a version, first
+just remove the file:
+
+ $ rm /path/to/dists/reponame/.../python-bcrypt_0.4-1_amd64.deb
+
+Then refresh that repository:
+
+ $ curl -X POST http://127.0.0.1:3333/reponame
