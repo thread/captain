@@ -20,8 +20,8 @@ def main():
     parser.add_option('--pidfile', dest='pid_file', default='')
     parser.add_option('--verbosity', dest='verbosity', default=2, type='int')
 
-    parser.add_option('--archive-root', dest='archive_root', default='./archive_root')
-    parser.add_option('--gpg-home', dest='gpg_home', default='./gpg-home-example')
+    parser.add_option('--archive-root', dest='archive_root', default='./root')
+    parser.add_option('--gpg-home', dest='gpg_home', default='./root/gpghome')
     parser.add_option('--archive', dest='archive', default='stable')
     parser.add_option('--origin', dest='origin', default='thread-apt-server')
     parser.add_option('--port', dest='port', default=3333, type='int')
