@@ -4,11 +4,11 @@ thread-apt-server
 Instructions
 ------------
 
- $ curl --upload-file my.deb http://server:3333/reponame
+ $ curl --upload-file my.deb http://127.0.0.1:3333/reponame
 
 For example:
 
- $ curl --upload-file python-bcrypt_0.4-1_amd64.deb http://server:3333/wheezy-backports
+ $ curl --upload-file python-bcrypt_0.4-1_amd64.deb http://127.0.0.1:3333/wheezy-backports
 
 Creating a new key
 ------------------
@@ -21,8 +21,8 @@ keyid generated.
 Client setup
 ------------
 
-  $ echo 'deb http://server:3333 reponame main' >> /etc/apt/sources.list
-  $ curl http://server:3333 > /etc/apt/trusted.gpg.d/server.gpg
+  $ echo 'deb http://127.0.0.1:3333 reponame main' >> /etc/apt/sources.list
+  $ curl http://127.0.0.1:3333 > /etc/apt/trusted.gpg.d/server.gpg
   $ apt-get update
 
 Uploading multiple files
@@ -33,7 +33,7 @@ processing time for large repos by skipping refreshing the repo until the end
 by POSTing to the repo URL::
 
   for X in *.deb; do
-      curl --upload-file ${X} http://server:3333/myrepo?refresh_repo=0
+      curl --upload-file ${X} http://127.0.0.1:3333/myrepo?refresh_repo=0
   done
 
-  curl -X POST http://server:3333/myrepo
+  curl -X POST http://127.0.0.1:3333/myrepo
