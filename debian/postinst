@@ -2,8 +2,8 @@
 
 set -eu
 
-ARCHIVE_ROOT="/var/lib/thread-apt-server"
-GPG_HOME="/var/lib/thread-apt-server/gpghome"
+ARCHIVE_ROOT="/var/lib/aptly"
+GPG_HOME="/var/lib/aptly/gpghome"
 USER="www-data"
 GROUP="www-data"
 
@@ -27,7 +27,7 @@ Key-Type: RSA
 Key-Length: 2048
 Subkey-Type: ELG-E
 Subkey-Length: 1024
-Name-Real: thread-apt-server
+Name-Real: aptly
 Expire-Date: 0
 %commit
 EOF

@@ -1,9 +1,15 @@
-thread-apt-server
-=================
+aptly
+=====
 
-Instructions
-------------
+----------------------------------------------------------------------------
+Lightweight, standalone RESTful HTTP server for distributing Debian packages
+----------------------------------------------------------------------------
 
+Quick-start
+-----------
+
+ $ ./aptlyd
+ [..]
  $ curl --upload-file my.deb http://127.0.0.1:3333/reponame
 
 For example:

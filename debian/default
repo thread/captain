@@ -1,14 +1,14 @@
 #
-# Default for /etc/init.d/thread-apt-server
+# Default for /etc/init.d/aptly
 #
 
-# Archive root directory (Default: /var/lib/thread-apt-server)
+# Archive root directory (Default: /var/lib/aptly)
 #
-ARCHIVE_ROOT="/var/lib/thread-apt-server"
+ARCHIVE_ROOT="/var/lib/aptly"
 
-# Root directory for GPG key (Default: /var/lib/thread-apt-server/gpghome)
+# Root directory for GPG key (Default: /var/lib/aptly/gpghome)
 #
-GPG_HOME="/var/lib/thread-apt-server/gpghome"
+GPG_HOME="/var/lib/aptly/gpghome"
 
 # Release file Archive header (Default: stable)
 #
@@ -17,12 +17,12 @@ GPG_HOME="/var/lib/thread-apt-server/gpghome"
 #
 ARCHIVE="stable"
 
-# Release file Origin header (Default: thread-apt-server)
+# Release file Origin header (Default: aptly)
 #
 # May be displayed to the user by package management tool so that the user can
 # tell apart different repositories or used for pinning.
 #
-ORIGIN="thread-apt-server"
+ORIGIN="aptly"
 
 # Number of versions of each package to keep (Default: 2)
 #
@@ -47,10 +47,10 @@ PORT="3333"
 #
 BIND="127.0.0.1"
 
-# User to run thread-apt-server as (Default: www-data)
+# User to run aptly as (Default: www-data)
 #
 USER="www-data"
 
-# Group to run thread-apt-server as (Default: www-data)
+# Group to run aptly as (Default: www-data)
 #
 GROUP="www-data"

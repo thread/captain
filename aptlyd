@@ -11,7 +11,7 @@ import logging.handlers
 
 from daemon.pidlockfile import PIDLockFile
 
-from thread_apt_server.server import Server
+from aptly.server import Server
 
 def main():
     parser = optparse.OptionParser()
@@ -30,7 +30,7 @@ def main():
     parser.add_option('--archive-root', dest='archive_root', default='./root')
     parser.add_option('--gpg-home', dest='gpg_home', default='./root/gpghome')
     parser.add_option('--archive', dest='archive', default='stable')
-    parser.add_option('--origin', dest='origin', default='thread-apt-server')
+    parser.add_option('--origin', dest='origin', default='aptly')
     parser.add_option('--max-versions', dest='max_versions', default=2,
         type='int')
     parser.add_option('--architectures', dest='architectures', type='string',

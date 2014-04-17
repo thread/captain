@@ -1,4 +1,4 @@
-thread-apt-server (0) unstable; urgency=low
+aptly (0) unstable; urgency=low
 
   * Initial commit.
 
