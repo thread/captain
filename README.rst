@@ -106,3 +106,15 @@ first just locate and remove that file::
 Then refresh that repository::
 
    $ curl -X POST http://127.0.0.1:3333/reponame
+
+Links
+-----
+
+Homepage/documentation:
+  https://aptly.readthedocs.org/
+
+View/download code
+  https://github.com/thread/aptly
+
+File a bug
+  https://github.com/thread/aptly/issues
