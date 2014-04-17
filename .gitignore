@@ -1,2 +1,3 @@
 *.pyc
 /root/dists/
+/docs/_build/
