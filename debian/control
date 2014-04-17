@@ -16,4 +16,4 @@ Depends:
   python-apt,
   python-daemon,
   python-eventlet,
-Description: Thread APT server
+Description: Lightweight, standalone RESTful HTTP server for distributing Debian packages
