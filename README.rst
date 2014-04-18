@@ -120,7 +120,7 @@ Links
 -----
 
 Homepage/documentation:
-  https://captain.readthedocs.org/
+  https://apt-captain.readthedocs.org/
 
 View/download code
   https://github.com/thread/captain
