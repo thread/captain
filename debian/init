@@ -1,6 +1,6 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides:          aptly
+# Provides:          captain
 # Required-Start:    $network $remote_fs
 # Required-Stop:     $network $remote_fs
 # Default-Start:     2 3 4 5
@@ -11,8 +11,8 @@
 
 set -u
 
-NAME=aptly
-DAEMON=/usr/sbin/aptlyd
+NAME=captain
+DAEMON=/usr/sbin/captaind
 
 RUNPATH=/var/run/${NAME}
 PIDFILE=${RUNPATH}/${NAME}.pid
@@ -25,10 +25,10 @@ test -x ${DAEMON} || exit 0
 . /lib/lsb/init-functions
 
 # Defaults
-ARCHIVE_ROOT="/var/lib/aptly"
-GPG_HOME="/var/lib/aptly/gpghome"
+ARCHIVE_ROOT="/var/lib/captain"
+GPG_HOME="/var/lib/captain/gpghome"
 ARCHIVE="stable"
-ORIGIN="aptly"
+ORIGIN="captain"
 MAX_VERSIONS="2"
 ARCHITECTURES="i386,amd64"
 PORT="3333"

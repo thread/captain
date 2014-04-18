@@ -1,30 +1,30 @@
-=====
-APTly
-=====
+=======
+cAPTain
+=======
 
 ----------------------------------------------------------------------------
 Lightweight, standalone RESTful HTTP server for distributing Debian packages
 ----------------------------------------------------------------------------
 
-APTly is a simple, lightweight HTTP server for storing and distributing custom
-Debian packages around your organisation. It is designed to make it as easy as
-possible to use Debian packages for code deployments and to ease other system
-administration tasks.
+cAPTain is a simple, lightweight HTTP server for storing and distributing
+custom Debian packages around your organisation. It is designed to make it as
+easy as possible to use Debian packages for code deployments and to ease other
+system administration tasks.
 
-Each APTly instance is a HTTP APT repo - simpy point a
+Each cAPTain instance is a HTTP APT repo - simpy point a
 ``/etc/apt/sources.list`` entry at your instance for instant package
 distribution!
 
 
-Why use APTly?
---------------
+Why use cAPTain?
+----------------
 
  * Zero configuration -- just start uploading your packages using HTTP ``PUT``.
 
  * Integrates better into the Debian system over ``dpkg -i``, especially in
    automatically resolving dependencies and repository pinning.
 
- * Supports an arbitrary number of repositories - one APTly instance can keep
+ * Supports an arbitrary number of repositories - one cAPTain instance can keep
    your "live" and "staging" packages from each other, as well as separating
    your own backports or forks.
 
@@ -45,7 +45,7 @@ Quick start
 
 #. Start the server with::
 
-    $ ./aptlyd
+    $ ./captaind
 
 #. In another terminal, upload your package::
 
@@ -53,14 +53,14 @@ Quick start
 
    .. tip::
 
-     ``reponame`` can any arbitrary repository name. If it doesn't exist, APTly
+     ``reponame`` can any arbitrary repository name. If it doesn't exist, cAPTain
      will automatically create it for you.
 
 #. Configure your ``sources.list``::
 
     $ echo 'deb http://127.0.0.1:3333 reponame main' >> /etc/apt/sources.list
 
-#. Save your APTly instance's GPG key::
+#. Save your cAPTain instance's GPG key::
 
     $ curl http://127.0.0.1:3333 > /etc/apt/trusted.gpg.d/server.gpg
 
@@ -108,7 +108,7 @@ To upload using curl from a pipe, ensure you use ``--data-binary``::
 Creating a new GPG key
 """"""""""""""""""""""
 
-APTly ships with a dummy key for getting started quickly. To create your own
+cAPTain ships with a dummy key for getting started quickly. To create your own
 key, run::
 
    $ gpg --homedir=/path/to/gpg-home --gen-key
@@ -120,10 +120,10 @@ Links
 -----
 
 Homepage/documentation:
-  https://aptly.readthedocs.org/
+  https://captain.readthedocs.org/
 
 View/download code
-  https://github.com/thread/aptly
+  https://github.com/thread/captain
 
 File a bug
-  https://github.com/thread/aptly/issues
+  https://github.com/thread/captain/issues

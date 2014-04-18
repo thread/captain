@@ -1,14 +1,14 @@
 #
-# Default for /etc/init.d/aptly
+# Default for /etc/init.d/captain
 #
 
-# Archive root directory (Default: /var/lib/aptly)
+# Archive root directory (Default: /var/lib/captain)
 #
-ARCHIVE_ROOT="/var/lib/aptly"
+ARCHIVE_ROOT="/var/lib/captain"
 
-# Root directory for GPG key (Default: /var/lib/aptly/gpghome)
+# Root directory for GPG key (Default: /var/lib/captain/gpghome)
 #
-GPG_HOME="/var/lib/aptly/gpghome"
+GPG_HOME="/var/lib/captain/gpghome"
 
 # Release file Archive header (Default: stable)
 #
@@ -17,12 +17,12 @@ GPG_HOME="/var/lib/aptly/gpghome"
 #
 ARCHIVE="stable"
 
-# Release file Origin header (Default: aptly)
+# Release file Origin header (Default: captain)
 #
 # May be displayed to the user by package management tool so that the user can
 # tell apart different repositories or used for pinning.
 #
-ORIGIN="aptly"
+ORIGIN="captain"
 
 # Number of versions of each package to keep (Default: 2)
 #
@@ -47,10 +47,10 @@ PORT="3333"
 #
 BIND="127.0.0.1"
 
-# User to run aptly as (Default: www-data)
+# User to run captain as (Default: www-data)
 #
 USER="www-data"
 
-# Group to run aptly as (Default: www-data)
+# Group to run captain as (Default: www-data)
 #
 GROUP="www-data"

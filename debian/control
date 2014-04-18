@@ -1,11 +1,11 @@
-Source: aptly
+Source: captain
 Section: net
 Priority: optional
 Maintainer: Thread, Inc. <tech@thread.com>
 Build-Depends: debhelper (>= 7.0.50~), python
 Standards-Version: 3.9.5
 
-Package: aptly
+Package: captain
 Architecture: all
 X-Python-Version: >= 2.6
 Depends:

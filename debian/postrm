@@ -4,13 +4,13 @@
 
 set -e
 
-ARCHIVE_ROOT="/var/lib/aptly"
-GPG_HOME="/var/lib/aptly/gpghome"
+ARCHIVE_ROOT="/var/lib/captain"
+GPG_HOME="/var/lib/captain/gpghome"
 
 if [ "$1" = "purge" ]
 then
-	rm -rf /var/run/aptly
-	rm -rf /var/log/aptly
+	rm -rf /var/run/captain
+	rm -rf /var/log/captain
 
 	rm -rf "${ARCHIVE_ROOT}"
 	rm -rf "${GPG_HOME}"

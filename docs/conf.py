@@ -1,4 +1,4 @@
-project = 'aptly'
+project = 'captain'
 version = ''
 release = ''
 copyright = '2014 Thread, Inc.'
