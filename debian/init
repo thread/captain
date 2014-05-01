@@ -12,6 +12,7 @@
 set -u
 
 NAME=captain
+NAME_DISPLAY=cAPTain
 DAEMON=/usr/sbin/captaind
 
 RUNPATH=/var/run/${NAME}
@@ -43,7 +44,7 @@ fi
 
 case "${1:-}" in
 	start)
-		log_daemon_msg "Starting ${NAME}" ${NAME}
+		log_daemon_msg "Starting ${NAME_DISPLAY}" ${NAME_DISPLAY}
 
 		for FILE in ${PIDFILE} ${LOGFILE}
 		do
@@ -69,7 +70,7 @@ case "${1:-}" in
         ;;
 
 	stop)
-		log_daemon_msg "Stopping ${NAME}" ${NAME}
+		log_daemon_msg "Stopping ${NAME_DISPLAY}" ${NAME_DISPLAY}
 
 		if start-stop-daemon --stop --quiet --retry 10 --oknodo \
 			--pidfile ${PIDFILE}
