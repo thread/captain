@@ -89,6 +89,10 @@ case "${1:-}" in
 		${0} start
         ;;
 
+	status)
+		status_of_proc -p ${PIDFILE} ${DAEMON} ${NAME_DISPLAY}
+	;;
+
 	*)
 		echo "Usage: ${NAME} {start|stop|restart|force-reload}" >&2
 		exit 1
