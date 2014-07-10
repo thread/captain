@@ -35,7 +35,7 @@ Why use cAPTain?
    preventing annoying warnings. Key distribution is built-in - no need to
    store your public key elsewhere.
 
- * No configuring heightweight solutions such as `dak
+ * No configuring heavyweight solutions such as `dak
    <https://wiki.debian.org/DakHowTo>`_ , provisioning a separate HTTP server,
    and stringing together arcane ``dpkg`` commands.
 
