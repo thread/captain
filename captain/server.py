@@ -1,6 +1,6 @@
 import os
 import re
-import sha
+import hashlib
 import time
 import shutil
 import apt_pkg
@@ -268,6 +268,7 @@ class Server(object):
             print >>f, "Archive: %s" % self.options.archive
             print >>f, "Origin: %s" % self.options.origin
             print >>f, "Suite: %s" % repo
+            print >>f, "Date: %s" % time.strftime("%a, %d %b %Y %H:%M:%S +0000")
             print >>f, "SHA1:"
 
             for base, _, filenames in os.walk(component_dir):
@@ -278,10 +279,28 @@ class Server(object):
                     to_hash = os.path.join(base, filename)
 
                     with open(to_hash) as f2:
-                        print >>f, ' %s 0 %s' % (
-                            sha.sha(f2.read()).hexdigest(),
+                        print >>f, ' %s %d %s' % (
+                            hashlib.sha1(f2.read()).hexdigest(),
+                            os.path.getsize(to_hash),
                             to_hash[len(repo_dir) + 1:],
                         )
+
+            print >>f, "SHA256:"
+
+            for base, _, filenames in os.walk(component_dir):
+                for filename in filenames:
+                    if not filename.startswith('Packages'):
+                        continue
+
+                    to_hash = os.path.join(base, filename)
+
+                    with open(to_hash) as f2:
+                        print >>f, ' %s %d %s' % (
+                            hashlib.sha256(f2.read()).hexdigest(),
+                            os.path.getsize(to_hash),
+                            to_hash[len(repo_dir) + 1:],
+                        )
+
 
         # Generate Release.gpg
         try:
